@@ -5,7 +5,7 @@ ClippyCat is a lightweight and feature-rich clipboard manager designed to help y
 ## Features
 
 - **Clipboard History**: Automatically logs clipboard content (text and images) for easy access.
-- **Search Functionality**: Quickly find clipboard items using a search bar.
+- **Search Functionality**: Quickly find clipboard items using a search bar. *(Note: Search feature is not yet implemented)*
 - **Favorites**: Mark important clipboard items as favorites for quick access.
 - **Tags and Categories**: Organize clipboard items with tags.
 - **Modern UI**: A clean and responsive interface with light and dark themes.
@@ -17,6 +17,28 @@ ClippyCat is a lightweight and feature-rich clipboard manager designed to help y
 - **Export/Import**: Save and load clipboard history for backup or sharing.
 - **Tray Icon**: Runs in the system tray for easy access and minimal interruption.
 - **Customizable Themes**: Offers a variety of themes to suit your preferences.
+
+
+## Current Limitations
+
+Please be aware of the following current limitations:
+
+- **Search Functionality**: The search feature is not yet implemented.
+- **Clipboard Item Removal**: The ability to delete clipboard items is not yet implemented.
+- **Logging Activation**: Clipboard monitoring must be manually started using the "Start Logging" button.
+
+## Screenshots
+
+Explore ClippyCat's interface through these screenshots: *(Note: If images don't appear on GitHub, ensure they've been committed and pushed to the repository)*
+| Light Theme | Dark Theme |
+|---|---|
+| ![ClippyCat Light Theme Interface](screenshots/clippycat-light.png) | ![ClippyCat Dark Theme Interface](screenshots/clippycat-dark.png) |
+| *Clean interface with light color scheme* | *Dark mode for comfortable nighttime use* |
+
+| Clip Editor | Settings Panel |
+|---|---|
+| ![ClippyCat Clip Editor Interface](screenshots/clippycat-clip-editor.png) | ![ClippyCat Settings Panel](screenshots/clippycat-settings-panel.png) |
+| *Detailed clip management interface* | *Customization and preference controls* |
 
 ## Project Structure
 
@@ -61,21 +83,25 @@ clipboard_logger_gui
 
 1. **Start Logging**:
    - Launch the application. It will start in the system tray.
-   - To start monitoring the clipboard, open the app from the tray icon.
-   - The clipboard content will be logged and displayed in the GUI.
+   - To start monitoring the clipboard, **you must click the "Start Logging" button** in the GUI.
+   - The clipboard content will then be logged and displayed in the GUI.
+   - To stop monitoring, click the "End Logging" button.
 
-2. **Search and Manage History**:
-   - Use the search bar to find specific clipboard items.
-   - Mark items as favorites or organize them with tags.
+2. **Managing Clipboard Items**:
+   - Click on any saved clipboard item in the list to open the editor and modify its content.
+   - Note: The ability to remove clipboard items is not yet implemented.
+   - Note: The search functionality is not yet implemented.
 
 3. **Quick Paste**:
    - Use the hotkey `Ctrl+Shift+V` to open the quick paste menu.
 
-4. **Stop Logging**:
-   - To stop monitoring, close the main window. The app will continue running in the system tray.
+4. **Settings**:
+   - Access settings from the **File menu** to customize themes, hotkeys, encryption, and more.
+   - The settings panel allows you to configure various aspects of the application.
 
-5. **Settings**:
-   - Access settings from the File menu to customize themes, hotkeys, encryption, and more.
+5. **Editing Saved Items**:
+   - To edit a saved clipboard item, click on it in the main interface to open the clip editor.
+   - Make your changes and save to update the stored clipboard item.
 
 6. **Tray Icon**:
    - Right-click the tray icon to access the menu with options to open the app or exit.
@@ -111,48 +137,6 @@ ClippyCat comes with a variety of built-in themes:
 
 You can switch between themes in the Settings menu.
 
-## To-Do List
-
-Here are some ideas to improve ClippyCat:
-
-1. **Customizable Themes**: Allow users to create and apply custom themes.
-2. **Clipboard Item Editing**: Enable users to edit text clipboard items directly in the app.
-3. **Advanced Search**: Add filters for content type, tags, and date ranges.
-4. **Clipboard Item Preview**: Show a preview of clipboard items before pasting.
-5. **Custom Hotkeys**: Allow users to configure their own hotkeys.
-6. **Drag-and-Drop Support**: Enable dragging clipboard items into other applications.
-7. **Encrypted Storage**: Add an option to encrypt clipboard history for security.
-8. **Auto-Cleanup**: Automatically delete old clipboard items based on user-defined rules.
-9. **Rich Text Support**: Handle rich text formats like HTML and Markdown.
-10. **Image Compression**: Option to compress images before saving to reduce database size.
-11. **Clipboard Templates**: Save frequently used text snippets as templates.
-12. **Dark Mode Toggle**: Add a button to quickly switch between light and dark modes.
-13. **Performance Optimization**: Improve the app's responsiveness with large clipboard histories.
-
-Extra to-do list for new features:
-
-1.  **OCR Support**: Implement OCR (Optical Character Recognition) to extract text from images copied to the clipboard.
-2.  **Context Menu Integration**: Add options to the right-click context menu for quick access to ClippyCat features.
-3.  **Regular Expression Support**: Allow users to search clipboard items using regular expressions.
-4.  **Automatic Tagging**: Automatically tag clipboard items based on content analysis.
-5.  **Global Hotkeys**: Set global hotkeys for specific actions, even when the app is minimized.
-6.  **Password Protection**: Require a password to access the clipboard history.
-7.  **Network Clipboard**: Share clipboard content across multiple computers on a local network.
-8.  **Scripting Support**: Allow users to automate tasks using scripts.
-9.  **Version Control Integration**: Integrate with version control systems to track changes to code snippets.
-10. **Audio Clip Support**: Add support for logging and playing audio clips copied to the clipboard.
-
-Extra features to come in future releases:
-
-1. **Add Cloud Sync**: Sync clipboard history across devices using cloud storage.
-2. **Clipboard Analytics**: Provide insights into clipboard usage patterns.
-3. **Clipboard Sharing**: Share clipboard items via email or messaging apps.
-4. **Multi-Monitor Support**: Ensure the app works seamlessly across multiple monitors.
-5. **Clipboard History Limit**: Allow users to set a maximum number of clipboard items to keep.
-6. **Mobile App**: Develop a companion app for Android and iOS.
-7. **Portable Mode**: Create a portable version of the app that runs without installation.
-8. **Integration with Password Managers**: Prevent sensitive data like passwords from being logged.
-
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
@@ -160,11 +144,6 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 ## Contributing
 
 We welcome contributions! If you'd like to contribute, please fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you'd like to change.
-
-## Screenshots
-
-![ClippyCat Light Theme](https://via.placeholder.com/400x300?text=Light+Theme+Screenshot)
-![ClippyCat Dark Theme](https://via.placeholder.com/400x300?text=Dark+Theme+Screenshot)
 
 ---
 
