@@ -1,0 +1,176 @@
+2025-04-05 19:21:17,263 - Icon file not found. Using default icon.
+2025-04-05 19:21:50,941 - Clipboard: Appgyver
+2025-04-05 19:22:02,958 - Clipboard: pip install pyperclip
+2025-04-05 19:34:14,291 - Clipboard: import customtkinter as ctk # pip install customtkinter
+import tkinter
+import os
+import openai
+from PIL import Image, ImageTk
+import requests, io
+
+def generate():
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    user_prompt = prompt_entry.get("0.0", tkinter.END)
+    user_prompt += "in style: " + style_dropdown.get()
+
+    response = openai.Image.create(
+        prompt=user_prompt,
+        n=int(number_slider.get()),
+        size="512x512"
+    )
+
+    image_urls = []
+    for i in range(len(response['data'])):
+        image_urls.append(response['data'][i]['url'])
+    print(image_urls)
+
+    images = []
+    for url in image_urls:
+        response = requests.get(url)
+        image = Image.open(io.BytesIO(response.content))
+        photo_image = ImageTk.PhotoImage(image)
+        images.append(photo_image)
+
+    def update_image(index=0):
+        canvas.image = images[index]
+        canvas.create_image(0, 0, anchor="nw", image=images[index])
+        index = (index + 1) % len(images) 
+        canvas.after(3000, update_image, index)
+
+    update_image()
+
+root = ctk.CTk()
+root.title("AI Image Generator")
+
+ctk.set_appearance_mode("dark")
+
+input_frame = ctk.CTkFrame(root)
+input_frame.pack(side="left", expand=True, padx=20, pady=20)
+
+prompt_label = ctk.CTkLabel(input_frame, text="Prompt")
+prompt_label.grid(row=0,column=0, padx=10, pady=10)
+prompt_entry = ctk.CTkTextbox(input_frame, height=10)
+prompt_entry.grid(row=0,column=1, padx=10, pady=10)
+
+style_label = ctk.CTkLabel(input_frame, text="Style")
+style_label.grid(row=1,column=0, padx=10, pady=10)
+style_dropdown = ctk.CTkComboBox(input_frame, values=["Realistic", "Cartoon", "3D Illustration", "Flat Art"])
+style_dropdown.grid(row=1, column=1, padx=10, pady=10)
+
+number_label = ctk.CTkLabel(input_frame, text="# Images")
+number_label.grid(row=2,column=0)
+number_slider = ctk.CTkSlider(input_frame, from_=1, to=10, number_of_steps=9)
+number_slider.grid(row=2,column=1)
+
+generate_button = ctk.CTkButton(input_frame, text="Generate", command=generate)
+generate_button.grid(row=3, column=0, columnspan=2, sticky="news", padx=10, pady=10)
+
+canvas = tkinter.Canvas(root, width=512, height=512)
+canvas.pack(side="left")
+
+root.mainloop()
+2025-04-05 19:49:34,719 - Clipboard: https://vercel.com/templates/next.js/agent-gpt
+2025-04-05 20:07:51,220 - Icon file not found. Using default icon.
+2025-04-05 20:11:18,526 - Fatal error occurred
+Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 516, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 45, in __init__
+    self.setup_styles()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 130, in setup_styles
+    style.configure("Drop.TFrame", background=self.current_theme['drop_bg'], padding=(10, 5), borderwidth=0, relief="flat")
+                                              ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyError: 'drop_bg'
+2025-04-05 20:14:08,005 - Fatal error occurred
+Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 520, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 50, in __init__
+    self.setup_ui()
+    ~~~~~~~~~~~~~^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 202, in setup_ui
+    self.clips_container.bind("<DragEnter>", self.on_drag_enter)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\tkinter\__init__.py", line 1545, in bind
+    return self._bind(('bind', self._w), sequence, func, add)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\tkinter\__init__.py", line 1499, in _bind
+    self.tk.call(what + (sequence, cmd))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: bad event type or keysym "DragEnter"
+2025-04-05 20:23:33,190 - Fatal error occurred
+Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 534, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 46, in __init__
+    self.root = TkinterDnD.Tk()  # Use TkinterDnD for drag-and-drop support
+                ^^^^^^^^^^
+NameError: name 'TkinterDnD' is not defined
+2025-04-05 20:24:14,938 - Fatal error occurred
+Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 534, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 47, in __init__
+    self.root.title("ClippyCat")
+    ^^^^^^^^^
+AttributeError: 'ClipboardLoggerGUI' object has no attribute 'root'
+2025-04-05 20:27:12,003 - Icon file not found. Using default icon.
+2025-04-05 20:27:22,009 - Clipboard: Fatal error: 'ClipboardLoggerGUI' object has no attribute 'root'
+2025-04-05 20:28:19,643 - Icon file not found. Using default icon.
+2025-04-05 20:28:25,253 - Clipboard: Fatal error: 'ClipboardLoggerGUI' object has no attribute 'root'
+2025-04-05 20:50:58,138 - Icon file not found. Using default icon.
+2025-04-05 20:51:06,326 - Clipboard: Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2068, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 195, in <lambda>
+    self.clips_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2933, in bbox
+    self.tk.call((self._w, 'bbox') + args)) or None
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: invalid command name ".!frame2.!canvas"
+2025-04-05 20:51:12,349 - Clipboard: Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2068, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 195, in <lambda>
+    self.clips_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2933, in bbox
+    self.tk.call((self._w, 'bbox') + args)) or None
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: invalid command name ".!frame2.!canvas"
+2025-04-05 20:52:18,667 - Icon file not found. Using default icon.
+2025-04-05 20:52:23,062 - Clipboard: Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2068, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 195, in <lambda>
+    self.clips_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2933, in bbox
+    self.tk.call((self._w, 'bbox') + args)) or None
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: invalid command name ".!frame2.!canvas"
+2025-04-05 20:52:27,074 - Clipboard: Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2068, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 195, in <lambda>
+    self.clips_canvas.configure(yscrollcommand=self.scrollbar.set)
+
+  File "C:\Python313\Lib\tkinter\__init__.py", line 2933, in bbox
+    self.tk.call((self._w, 'bbox') + args)) or None
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: invalid command name ".!frame2.!canvas"
+2025-04-05 21:04:40,663 - Clipboard: create a clipboard management app with a modern apple inspired design like the MacOS style design with a dark/light toggle on it and 5-10 different settings options, drag and drop functionality (drag your clipped text or item into a new app window to import it), it should remember your past clipboard items (up to 100 by default but up to 1000 max if set by the user in settings, maybe use a drag bar with optional text input box to set this by the user in-app), offer 4-8 different themes including monokai/dracula/blurple/discord/solarized/nordic, and make the ui long and not very tall with an input at the top center that can search for past clips and you can scroll down to see your old ones, when you start the app it should start logging clipboard history and it will end when the app closes (should remember past history when started up again), and it should be able to filter search your past clips by things like date range and name and so on, it should also go into the tray/menu bar when the app is closed (but make an option for the user to make this actually close the app instead of going to tray), the size of the database or whatever that holds the clipboard history should be set to a minimum and maximum size and be also able to be user defined in the settings (choose whatever parameters you think are good, i like the idea of 256mb default size) and have the app warn the user when the database is almost full (within 15% of it being full) so that they know to increase the size of it (also remind them when they are coming up to within 15% their max of items currently set in the app), and i want the GUI to have rounded buttons and rounded corners and proper amounts of padding/margin and font size and font itself and so on (this should also be a user setting, so they can change the padding, text size, and font for example but we may want to add even more appearance tweaks or settings the user can choose or change), we want a nice modern and slightly minimal UX/UI inspired by top designers and award winning app/web designs, and i would like the app to be inspired by copyclip 1 & 2, maccy, and alfred 4 & 5 and the MacOS "spotlight" finder search bar. i also want optional (off by default) encryption settings to store the database in an encrypted format, optional portable version (no-install), and hotkeys (user can change these) which allow copying and pasting into apps without disturbing the main copy and paste maybe by adding shift key to the regular copy and paste hotkeys, also we want optional (off by default) hotkeys to remember the last 9 items saved in the clipboard history so that they are automatically swapped to the current clipboard (maybe think of a few more hotkeys and or global hotkeys we can add in, as well as a user configurable hotkey editor inside of our app). I also want to have the ability/feature to show clipboard item previews before pasting. I want clipboard image saving (with optional compression, to save space in our database, which should have options and settings for the user to choose how compressed the images are). We also need the ability for users to be able to edit the items in their clipboard history, which should be either handled by autosaving or a save button (pick one to default to that makes it easier for the user which is probably autosaving, but make an option for the user to switch this setting to the other method of saving, and there should be an autosave timer in seconds that the user can select for the app to use as a setting). We also might want to have a setting where the user can change how often the clipboard is monitored (instant, every second, every half second, something like that maybe?). We also want an auto-cleanup function (off by default) where the app deletes any items older than a set amount of days (set to 60 days by default) or when it goes beyond the maximum amount of items allowed in history as set by that configuration setting (100 by default, 1000 maximum). We should also have an optional feature where you have to set a password to encrypt the history and then anything past the last 10 history items are encrypted unless you put in the password as set earlier by the user. If we can we also want a nice app icon for this app, I would prefer a cat face with a paperclip.
+2025-04-05 21:05:25,713 - Clipboard: create a clipboard management app with a modern apple inspired design like the MacOS style design with a dark/light toggle on it and 5-10 different settings options, drag and drop functionality (drag your clipped text or item into a new app window to import it), it should remember your past clipboard items (up to 100 by default but up to 1000 max if set by the user in settings, maybe use a drag bar with optional text input box to set this by the user in-app), offer 4-8 different themes including monokai/dracula/blurple/discord/solarized/nordic, and make the ui long and not very tall with an input at the top center that can search for past clips and you can scroll down to see your old ones, when you start the app it should start logging clipboard history and it will end when the app closes (should remember past history when started up again), and it should be able to filter search your past clips by things like date range and name and so on, it should also go into the tray/menu bar when the app is closed (but make an option for the user to make this actually close the app instead of going to tray), the size of the database or whatever that holds the clipboard history should be set to a minimum and maximum size and be also able to be user defined in the settings (choose whatever parameters you think are good, i like the idea of 256mb default size) and have the app warn the user when the database is almost full (within 15% of it being full) so that they know to increase the size of it (also remind them when they are coming up to within 15% their max of items currently set in the app), and i want the GUI to have rounded buttons and rounded corners and proper amounts of padding/margin and font size and font itself and so on (this should also be a user setting, so they can change the padding, text size, and font for example but we may want to add even more appearance tweaks or settings the user can choose or change), we want a nice modern and slightly minimal UX/UI inspired by top designers and award winning app/web designs, and i would like the app to be inspired by copyclip 1 & 2, maccy, and alfred 4 & 5 and the MacOS "spotlight" finder search bar. i also want optional (off by default) encryption settings to store the database in an encrypted format, optional portable version (no-install), and hotkeys (user can change these) which allow copying and pasting into apps without disturbing the main copy and paste maybe by adding shift key to the regular copy and paste hotkeys, also we want optional (off by default) hotkeys to remember the last 9 items saved in the clipboard history so that they are automatically swapped to the current clipboard (maybe think of a few more hotkeys and or global hotkeys we can add in, as well as a user configurable hotkey editor inside of our app). I also want to have the ability/feature to show clipboard item previews before pasting. I want clipboard image saving (with optional compression, to save space in our database, which should have options and settings for the user to choose how compressed the images are). We also need the ability for users to be able to edit the items in their clipboard history, which should be either handled by autosaving or a save button (pick one to default to that makes it easier for the user which is probably autosaving, but make an option for the user to switch this setting to the other method of saving, and there should be an autosave timer in seconds that the user can select for the app to use as a setting). We also might want to have a setting where the user can change how often the clipboard is monitored (instant, every second, every half second, something like that maybe?). We also want an auto-cleanup function (off by default) where the app deletes any items older than a set amount of days (set to 60 days by default) or when it goes beyond the maximum amount of items allowed in history as set by that configuration setting (100 by default, 1000 maximum). We also want a nice app icon for this app, I would prefer a cat face with a paperclip.
+2025-04-05 21:05:26,806 - Error logging clipboard: main thread is not in main loop
+2025-04-05 21:06:27,702 - Icon file not found. Using default icon.
+2025-04-05 21:06:34,198 - Clipboard: create a clipboard management app with a modern apple inspired design like the MacOS style design with a dark/light toggle on it and 5-10 different settings options, drag and drop functionality (drag your clipped text or item into a new app window to import it), it should remember your past clipboard items (up to 100 by default but up to 1000 max if set by the user in settings, maybe use a drag bar with optional text input box to set this by the user in-app), offer 4-8 different themes including monokai/dracula/blurple/discord/solarized/nordic, and make the ui long and not very tall with an input at the top center that can search for past clips and you can scroll down to see your old ones, when you start the app it should start logging clipboard history and it will end when the app closes (should remember past history when started up again), and it should be able to filter search your past clips by things like date range and name and so on, it should also go into the tray/menu bar when the app is closed (but make an option for the user to make this actually close the app instead of going to tray), the size of the database or whatever that holds the clipboard history should be set to a minimum and maximum size and be also able to be user defined in the settings (choose whatever parameters you think are good, i like the idea of 256mb default size) and have the app warn the user when the database is almost full (within 15% of it being full) so that they know to increase the size of it (also remind them when they are coming up to within 15% their max of items currently set in the app), and i want the GUI to have rounded buttons and rounded corners and proper amounts of padding/margin and font size and font itself and so on (this should also be a user setting, so they can change the padding, text size, and font for example but we may want to add even more appearance tweaks or settings the user can choose or change), we want a nice modern and slightly minimal UX/UI inspired by top designers and award winning app/web designs, and i would like the app to be inspired by copyclip 1 & 2, maccy, and alfred 4 & 5 and the MacOS "spotlight" finder search bar. i also want optional (off by default) encryption settings to store the database in an encrypted format, optional portable version (no-install), and hotkeys (user can change these) which allow copying and pasting into apps without disturbing the main copy and paste maybe by adding shift key to the regular copy and paste hotkeys, also we want optional (off by default) hotkeys to remember the last 9 items saved in the clipboard history so that they are automatically swapped to the current clipboard (maybe think of a few more hotkeys and or global hotkeys we can add in, as well as a user configurable hotkey editor inside of our app). I also want to have the ability/feature to show clipboard item previews before pasting. I want clipboard image saving (with optional compression, to save space in our database, which should have options and settings for the user to choose how compressed the images are). We also need the ability for users to be able to edit the items in their clipboard history, which should be either handled by autosaving or a save button (pick one to default to that makes it easier for the user which is probably autosaving, but make an option for the user to switch this setting to the other method of saving, and there should be an autosave timer in seconds that the user can select for the app to use as a setting). We also might want to have a setting where the user can change how often the clipboard is monitored (instant, every second, every half second, something like that maybe?). We also want an auto-cleanup function (off by default) where the app deletes any items older than a set amount of days (set to 60 days by default) or when it goes beyond the maximum amount of items allowed in history as set by that configuration setting (100 by default, 1000 maximum). We also want a nice app icon for this app, I would prefer a cat face with a paperclip.

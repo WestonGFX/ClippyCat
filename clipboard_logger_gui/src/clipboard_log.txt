@@ -1,0 +1,28 @@
+2025-04-05 15:27:49,939 - Icon file not found. Using default icon.
+2025-04-05 15:28:34,072 - Clipboard:   File "C:\code\ClippyCat\clipboard_logger_gui\src\make_icon.py", line 26, in <module>
+    icon.save('src/clippycat_icon.png')
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chris\AppData\Roaming\Python\Python313\site-packages\PIL\Image.py", line 2591, in save
+    fp = builtins.open(filename, "w+b")
+FileNotFoundError: [Errno 2] No such file or directory: 'src/clippycat_icon.png'
+2025-04-05 15:40:39,096 - Icon file not found. Using default icon.
+2025-04-05 15:40:53,789 - Clipboard: Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 369, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 27, in __init__
+    self.ensure_config_sections()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 43, in ensure_config_sections
+    with open('config/config.ini', 'w') as configfile:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'config/config.ini'
+2025-04-05 15:41:02,830 - Clipboard: Traceback (most recent call last):
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 369, in <module>
+    gui = ClipboardLoggerGUI()
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 27, in __init__
+    self.ensure_config_sections()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\code\ClippyCat\clipboard_logger_gui\src\gui.py", line 43, in ensure_config_sections
+    with open('config/config.ini', 'w') as configfile:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'config/config.ini'
