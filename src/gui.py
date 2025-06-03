@@ -16,7 +16,8 @@ from PIL import Image
 # Add the parent directory to the Python path to resolve the 'src' module
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from themes import themes  # Import the themes
+from themes import themes  # Built-in themes
+from theme_manager import ThemeManager
 
 def get_int(config, section, key, fallback):
     val = config.get(section, key, fallback=fallback)
@@ -35,6 +36,9 @@ class ClipboardLoggerGUI:
             self.config_dir = os.path.join(self.base_dir, 'config')
             self.config_path = os.path.join(self.config_dir, 'config.ini')
             self.log_path = os.path.join(self.base_dir, 'clipboard_log.txt')
+
+            # Theme manager handles both built-in and user-defined themes
+            self.theme_manager = ThemeManager(os.path.join(self.base_dir, 'themes'))
 
             # Create required directories
             os.makedirs(self.config_dir, exist_ok=True)
@@ -123,7 +127,8 @@ class ClipboardLoggerGUI:
 
     def load_theme(self):
         theme_name = self.config.get('UI', 'theme', fallback='default')
-        self.current_theme = themes.get(theme_name, themes['default'])
+        available = self.theme_manager.get_all_themes()
+        self.current_theme = available.get(theme_name, available['default'])
         self.root.configure(bg=self.current_theme['bg'])
 
     def setup_styles(self):
@@ -165,7 +170,7 @@ class ClipboardLoggerGUI:
             self.menu_bar.add_cascade(label="File", menu=self.file_menu)
 
             self.theme_menu = tk.Menu(self.menu_bar, tearoff=0)
-            for theme_name, theme in themes.items():
+            for theme_name, theme in self.theme_manager.get_all_themes().items():
                 self.theme_menu.add_command(label=theme['name'], command=lambda t=theme: self.apply_theme(t))
             self.menu_bar.add_cascade(label="Themes", menu=self.theme_menu)
 
@@ -293,7 +298,13 @@ class ClipboardLoggerGUI:
                 logging.error(f"Error logging clipboard: {e}")
 
     def open_settings(self):
-        SettingsWindow(self.root, self.config, self.apply_theme, self.update_max_db_size)
+        SettingsWindow(
+            self.root,
+            self.config,
+            self.apply_theme,
+            self.update_max_db_size,
+            self.theme_manager,
+        )
 
     def save_settings(self):
         try:
@@ -308,8 +319,12 @@ class ClipboardLoggerGUI:
             with open(self.config_path, 'w', encoding='utf-8') as configfile:
                 self.config.write(configfile)
 
-            selected_theme = themes.get(self.theme_var.get(), themes['default'])
-            self.apply_theme_func(selected_theme)
+            self.theme_manager.reload()
+            selected = self.theme_manager.get_all_themes().get(
+                self.theme_var.get(),
+                self.theme_manager.get_all_themes()['default']
+            )
+            self.apply_theme_func(selected)
         except ValueError:
             messagebox.showerror("Error", "Invalid database size. Please enter a number.")
         except Exception as e:
@@ -419,20 +434,22 @@ class EditClipDialog(simpledialog.Dialog):
         self.ok()
 
 class SettingsWindow(tk.Toplevel):
-    def __init__(self, parent, config, apply_theme_func, update_max_db_size_func):
+    def __init__(self, parent, config, apply_theme_func, update_max_db_size_func, theme_manager: ThemeManager):
         super().__init__(parent)
         self.title("Settings")
         self.config = config
         self.apply_theme_func = apply_theme_func
         self.update_max_db_size_func = update_max_db_size_func
-        self.theme = themes['default']
+        self.theme_manager = theme_manager
+        self.theme = self.theme_manager.get_all_themes()['default']
         self.setup_ui()
 
     def setup_ui(self):
         theme_label = ttk.Label(self, text="Theme:")
         theme_label.grid(row=0, column=0, padx=5, pady=5)
         self.theme_var = tk.StringVar(value=self.config.get('UI', 'theme', fallback='default'))
-        theme_dropdown = ttk.Combobox(self, textvariable=self.theme_var, values=list(themes.keys()))
+        available = list(self.theme_manager.get_all_themes().keys())
+        theme_dropdown = ttk.Combobox(self, textvariable=self.theme_var, values=available)
         theme_dropdown.grid(row=0, column=1, padx=5, pady=5)
 
         dark_mode_label = ttk.Label(self, text="Dark Mode:")
@@ -475,8 +492,7 @@ class SettingsWindow(tk.Toplevel):
 
     def open_theme_creator(self):
         from theme_creator import ThemeCreator
-        themes_dir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')), "themes")
-        ThemeCreator(self, themes_dir)
+        ThemeCreator(self, self.theme_manager.themes_dir, self.theme_manager)
 
     def save_settings(self):
         try:
@@ -491,8 +507,12 @@ class SettingsWindow(tk.Toplevel):
             with open(self.config_path, 'w', encoding='utf-8') as configfile:
                 self.config.write(configfile)
 
-            selected_theme = themes.get(self.theme_var.get(), themes['default'])
-            self.apply_theme_func(selected_theme)
+            self.theme_manager.reload()
+            selected = self.theme_manager.get_all_themes().get(
+                self.theme_var.get(),
+                self.theme_manager.get_all_themes()['default']
+            )
+            self.apply_theme_func(selected)
         except ValueError:
             messagebox.showerror("Error", "Invalid database size. Please enter a number.")
         except configparser.Error as e:

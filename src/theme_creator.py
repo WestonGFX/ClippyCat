@@ -5,10 +5,11 @@ import os
 import logging
 
 class ThemeCreator(tk.Toplevel):
-    def __init__(self, master, themes_dir):
+    def __init__(self, master, themes_dir, manager=None):
         super().__init__(master)
         self.title("Custom Theme Creator")
         self.themes_dir = themes_dir
+        self.manager = manager
         self.setup_ui()
 
     def setup_ui(self):
@@ -57,9 +58,12 @@ class ThemeCreator(tk.Toplevel):
                 "button_bg": self.colors["button_bg"],
                 "button_fg": self.colors["button_fg"]
             }
-            theme_path = os.path.join(self.themes_dir, f"{theme_name}.json")
-            with open(theme_path, "w") as f:
-                json.dump(theme_data, f, indent=4)
+            if self.manager:
+                self.manager.save_theme(theme_name, theme_data)
+            else:
+                theme_path = os.path.join(self.themes_dir, f"{theme_name}.json")
+                with open(theme_path, "w") as f:
+                    json.dump(theme_data, f, indent=4)
             messagebox.showinfo("Success", "Theme saved successfully!")
             self.destroy()
         except Exception as e:
